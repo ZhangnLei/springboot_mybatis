@@ -1,4 +1,4 @@
-package com.process.rrturnhtml;
+package com.process.returnhtml;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -10,11 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * Created by ZhangLei on 2017/5/23.
  */
 @Configuration
-public class MvcConfigurerForError extends WebMvcConfigurerAdapter {
+public class MvcConfigurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/error").setViewName("error.html");
+        registry.addViewController("/hello").setViewName("hello.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
