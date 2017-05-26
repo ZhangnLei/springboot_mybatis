@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="process_control_core@123.206.87.112">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="process_control_core">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <table id="4" parent="2" name="access">
+      <Comment>系统接入表</Comment>
+    </table>
+    <table id="5" parent="2" name="authorization">
+      <Comment>授权表，每一条记录代表一虚拟用户，具体用户根据具体用户进行甄别。</Comment>
+    </table>
+    <table id="6" parent="2" name="process_main">
+      <Comment>过程主体，主要用作过程的限制与具体描述</Comment>
+    </table>
+    <table id="7" parent="2" name="process_thread">
+      <Comment>子流程表</Comment>
+    </table>
+    <table id="8" parent="2" name="test">
+      <Comment>for test		</Comment>
+    </table>
+    <table id="9" parent="2" name="tracker">
+      <Comment>过程监控表，记录所有流程行为</Comment>
+    </table>
+    <column id="10" parent="4" name="system_id">
+      <Position>1</Position>
+      <Comment>接入系统id</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="11" parent="4" name="system_name">
+      <Position>2</Position>
+      <Comment>接入系统名称</Comment>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="12" parent="4" name="system_info">
+      <Position>3</Position>
+      <Comment>接入系统信息</Comment>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <column id="13" parent="4" name="access_ip">
+      <Position>4</Position>
+      <Comment>接入系统ip</Comment>
+      <DataType>varchar(15)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="14" parent="4" name="system_domain">
+      <Position>5</Position>
+      <Comment>接入系统域名</Comment>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <key id="15" parent="4" name="PRIMARY">
+      <ColNames>system_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="16" parent="5" name="auth_id">
+      <Position>1</Position>
+      <Comment>主键</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="17" parent="5" name="auth_code">
+      <Position>2</Position>
+      <Comment>授权编号，为哈希值。</Comment>
+      <DataType>char(16)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="18" parent="5" name="create_time">
+      <Position>3</Position>
+      <Comment>创建时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="19" parent="5" name="expire_time">
+      <Position>4</Position>
+      <Comment>失效时间，可空，代表不会失效。</Comment>
+      <DataType>timestamp|0</DataType>
+    </column>
+    <column id="20" parent="5" name="auth_level">
+      <Position>5</Position>
+      <Comment>授权等级</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="21" parent="5" name="status">
+      <Position>6</Position>
+      <Comment>虚拟账户状态</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="22" parent="5" name="affiliation">
+      <Position>7</Position>
+      <Comment>虚拟用户从属系统编号</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="23" parent="5" name="extra">
+      <Position>8</Position>
+      <Comment>附加字段，暂时无用</Comment>
+      <DataType>json|0</DataType>
+    </column>
+    <index id="24" parent="5" name="auth_code_UNIQUE">
+      <ColNames>auth_code</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="25" parent="5" name="PRIMARY">
+      <ColNames>auth_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="26" parent="5" name="auth_code_UNIQUE">
+      <ColNames>auth_code</ColNames>
+      <UnderlyingIndexName>auth_code_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="27" parent="6" name="process_main_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="28" parent="6" name="process_starter">
+      <Position>2</Position>
+      <Comment>过程发起人，为授权表id字段的外键</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="29" parent="6" name="process_supervisor">
+      <Position>3</Position>
+      <Comment>过程监管负责人，为授权表id字段的外键。可空</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="30" parent="6" name="process_model">
+      <Position>4</Position>
+      <Comment>过程模型编号</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="6" name="process_priority">
+      <Position>5</Position>
+      <Comment>流程优先级</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="32" parent="6" name="process_step">
+      <Position>6</Position>
+      <Comment>过程当前编号</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="6" name="has_thread">
+      <Position>7</Position>
+      <Comment>标记此流程是否有子流程，值为0和1</Comment>
+      <DataType>tinyint(4)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="34" parent="6" name="create_time">
+      <Position>8</Position>
+      <Comment>过程创建时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="35" parent="6" name="start_time">
+      <Position>9</Position>
+      <Comment>过程生效时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="36" parent="6" name="deadline">
+      <Position>10</Position>
+      <Comment>过程强制终止时间，可空</Comment>
+      <DataType>timestamp|0</DataType>
+    </column>
+    <column id="37" parent="6" name="end_time">
+      <Position>11</Position>
+      <Comment>过程结束时间</Comment>
+      <DataType>timestamp|0</DataType>
+    </column>
+    <column id="38" parent="6" name="process_status">
+      <Position>12</Position>
+      <Comment>过程状态</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <key id="39" parent="6" name="PRIMARY">
+      <ColNames>process_main_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="40" parent="7" name="thread_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="41" parent="7" name="belong_process_id">
+      <Position>2</Position>
+      <Comment>父流程id，为main表id字段的外键</Comment>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="42" parent="7" name="thread_starter">
+      <Position>3</Position>
+      <Comment>子流程发起人，为授权表id字段的外键</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="43" parent="7" name="thread_start_time">
+      <Position>4</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="44" parent="7" name="thread_step">
+      <Position>5</Position>
+      <Comment>子流程当前进度</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="45" parent="7" name="thread_status">
+      <Position>6</Position>
+      <Comment>子流程当前状态</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <key id="46" parent="7" name="PRIMARY">
+      <ColNames>thread_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="47" parent="8" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="48" parent="8" name="name">
+      <Position>2</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <column id="49" parent="8" name="password">
+      <Position>3</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <key id="50" parent="8" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="51" parent="9" name="trace_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="52" parent="9" name="is_process">
+      <Position>2</Position>
+      <Comment>存储布尔值，1表示此记录属于主流程，0表示属于子流程</Comment>
+      <DataType>tinyint(4)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="53" parent="9" name="trace_maker">
+      <Position>3</Position>
+      <Comment>改动发起人，为授权表id字段的外键</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="9" name="trace_time">
+      <Position>4</Position>
+      <Comment>改动发起时间</Comment>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="55" parent="9" name="origin_status">
+      <Position>5</Position>
+      <Comment>改动前进度状态，0表示此行为是一次流程的发起</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="56" parent="9" name="after_status">
+      <Position>6</Position>
+      <Comment>改动之后的流程状态</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="57" parent="9" name="flag">
+      <Position>7</Position>
+      <Comment>行为标记，暂时不用置0</Comment>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="58" parent="9" name="PRIMARY">
+      <ColNames>trace_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>
